@@ -10,16 +10,13 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         String[] products = {"Хлеб", "Яблоки", "Молоко"};
         int[] prices = {100, 200, 300};
-        int sumProducts = 0;
 
-
+        Basket basket = new Basket(prices, products);
         File file = new File("basket.txt");
         if (file.exists()) {
             Basket.loadFromTxtFile(file);
+            basket.printCart();
         }
-
-        Basket basket = new Basket(prices, products);
-
 
         System.out.println("Список возможных товаров: ");
 
@@ -38,8 +35,9 @@ public class Main {
             int productNumber = Integer.parseInt(parts[0]) - 1;
             int productCount = Integer.parseInt(parts[1]);
             basket.addToCart(productNumber, productCount);
-            basket.saveTxt(file);
+
         }
+        basket.saveTxt(file);
         basket.printCart();
     }
 

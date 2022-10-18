@@ -2,39 +2,28 @@ import java.io.*;
 
 public class Basket {
 
-    protected int[] prices;
-    protected String[] products;
-    protected int sumProducts;
-    protected int[] countProducts = new int[3];
+    protected static int[] prices;
+    protected static String[] products;
+    protected static int sumProducts;
+    protected static int[] countProducts = new int[3];
 
 
     Basket(int[] prices, String[] products) {
-        this.prices = prices;
-        this.products = products;
+        Basket.prices = prices;
+        Basket.products = products;
     }
+
 
     static Basket loadFromTxtFile(File file) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String[] products = reader.readLine().split(" ");
-            String sf = null;
-            for (String product : products) {
-                sf = product;
-                System.out.print(sf + " ");
 
+            String[] buy = reader.readLine().split(" ");
+            for (int i = 0; i < buy.length; i++) {
+                countProducts[i] = Integer.parseInt(buy[i]);
             }
-            System.out.println();
-            String[] countProducts = reader.readLine().split(" ");
-            int g = 0;
-            for (String s : countProducts) {
-                g = Integer.parseInt(s);
-                System.out.print(g + " ");
-            }
-
-
-            System.out.println();
+            sumProducts = Integer.parseInt(reader.readLine());
         }
-
-        return null;
+        return new Basket(prices, products);
     }
 
     void addToCart(int productNum, int amount) {
@@ -45,6 +34,7 @@ public class Basket {
     }
 
     void printCart() {
+
         System.out.println("Ваша корзина: ");
 
         for (int j = 0; j < countProducts.length; j++) {
@@ -53,22 +43,21 @@ public class Basket {
                         + countProducts[j] * prices[j] + " руб в сумме");
             }
         }
-
         System.out.println("Итого " + sumProducts + " руб");
     }
 
+
     public void saveTxt(File file) throws IOException {
         try (PrintWriter out = new PrintWriter(file)) {
-
-            for (String product : products) {
-                out.print(product + " ");
-            }
-            out.println();
             for (int countProduct : countProducts) {
                 out.print(countProduct + " ");
             }
+            out.print("\n");
+            out.print(sumProducts);
+            out.print("\n");
         }
     }
 }
+
 
 
